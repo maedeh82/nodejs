@@ -1,8 +1,7 @@
 // کد های پایین برای ماژول بندی استفاده میشه 
 // const maede = require('./maede')
 
-const { validationResult, body } = require("express-validator")
-const Users = require("./users")
+
 
 // console.log(maede.zarb(5,6))
 
@@ -210,31 +209,49 @@ const Users = require("./users")
 
 
 // api put
+
+const { validationResult, body, check } = require("express-validator")
+let Users = require("./users")
+// چون در خط 236 باید مقدار یوزرز تغییر بدیم باید از لت استفاده بشه
+
+
 const express = require('express')
-let users = require("./users")
 const app = express() 
+app.use(express.json());
+//  برای خواندن 
+// req.body
+// باید از این کد استفاده شود
 app.put("/api/users/:id" , [
-  body("id" , "id must be valid").notEmpty(),
-  body("name" , "name must be valid").notEmpty(),
-  body("family" , "family must be valid").notEmpty()
-], (res , req)=>{
-  const user =Users.find(u=> u.id == req.params.id)
+  check("id").not().isEmpty().withMessage("id وارد کنید"),
+  check("name").not().isEmpty().withMessage("نام را وارد کنید "),
+  check("family").not().isEmpty().withMessage("نام خانوادگی وارد کنید")
+  // برای ولیدیشن ها باید از این کد استفاده بشه در ورژن های جدید تغیر کرده 
+  // این کد میگه اگر مثلا نام وجود داشت و مقدارش خالی بود اوکیه اگر نه اون کامنت نشون میده
+], (req , res)=>{
+  const user = Users.find(u=> u.id == req.params.id)
   if (!user) {
     return res.status(404).json({
-      data:null,
-      message:"the user with the given id was not found "
+      data: null,
+      message:"کاربر وجود ندارد" 
     })
   }
   const error = validationResult(req)
-  if (!error.notEmpty()) {
-    return res.status(400).json({data:null , errors:error.array() , message: "vilidation"})
+  if (!error.isEmpty()) {
+    return res.status(400).json({data:null , errors:error.array() , message: "تمامی فیلد ها اجباری هست"})
   }
-  Users.map(user=>{
-    if (user.id == req.params.id) {
-      return { ...user , ...req.body}
+  
+  Users = Users.map(u => {
+    if (u.id == req.params.id) {
+      return { ...u, ...req.body }; 
     }
-    return user
-  })
+    return u;
+  });
+// ایدی ک در پارامز ارسال شده 
+// /api/users/1
+// ویرایش کن و با ایدی قبلی ک در 
+// Users 
+// بود جایگزین کن 
+ 
   res.json({
     data:Users,
     message:"ok"
@@ -243,10 +260,7 @@ app.put("/api/users/:id" , [
 const port = process.env.PORT || 3000
 app.listen(port, ()=> console.log(`listening on port ${port}`))
 
-// عاشقتماااااااااااا توله سگگگگ
+
+// توضیحات کامل باید داده شود 
 
 
-for (let index = 0; index < 100; index++) {
-  console.log("i love you")
-  
-}
