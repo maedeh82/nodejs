@@ -1,6 +1,9 @@
 // کد های پایین برای ماژول بندی استفاده میشه 
 // const maede = require('./maede')
 
+const { validationResult, body } = require("express-validator")
+const Users = require("./users")
+
 // console.log(maede.zarb(5,6))
 
 // path ماژول
@@ -156,40 +159,87 @@
 // })
 // const port = process.env.PORT || 3000
 // app.listen(port, ()=> console.log(`listening on port ${port}`))
-// کد های بالا باگ داره
+
 
 
 // مثلا وقتی میخواهیم یم بدنه یا یک متنی یا هرچیزی رو موقع فرستادن درخواست ارسال کنیم مثل زیر مینویسیم
+// const express = require('express')
+// const {body , validationResult} = require('express-validator');
+// let users = require("./users")
+// const app = express() 
+
+// app.use(express.json()) // این کد برای نشون دادن درخواست در قسمت بادی
+
+// app.get('/api/users/:id' , (req , res )=>{
+//   const user = users.find(u => u.id == req.params.id)
+//   if (!user) {
+//     return res.status(404).json({ message: "User not found" });
+//   }
+//   res.json({
+//     data:user,
+//     message : 'ok'
+//   })
+// })
+// کد های زیر برای اعتبار سنجی به معنای دیگر اینجوریه که اگر برای مثال ایمیلش درست نبود متن رو به رو
+// را نشان دهد که مشکل داره
+ 
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+// app.post("/api/users", [
+//   body('id','id must be valid').notEmpty(),
+//   body('name','name cant be empty').notEmpty(),
+//   body('family', 'family cant be empty').notEmpty()
+// ], (req , res )=>{
+//   const errors = validationResult(req)
+//   if (!errors.notEmpty()) {
+//     return res.status(400).json({data : null , errors: errors.array(),message:'validation error'})
+//   } 
+//   const user = req.body;
+
+//   if (!user) {
+//     res.status(404).json({ message: "not fund"  })
+//   }else{
+//     let name = user.name + " ali"
+//     console.log(name)
+//     res.status(200).json({ message: "ok" ,data : name })
+//   }
+// })
+// باگ کیری
+
+
+// api put
 const express = require('express')
 let users = require("./users")
 const app = express() 
-
-app.use(express.json()) // این کد برای نشون دادن درخواست در قسمت بادی
-
-app.get('/api/users/:id' , (req , res )=>{
-  const user = users.find(u => u.id == req.params.id)
+app.put("/api/users/:id" , [
+  body("id" , "id must be valid").notEmpty(),
+  body("name" , "name must be valid").notEmpty(),
+  body("family" , "family must be valid").notEmpty()
+], (res , req)=>{
+  const user =Users.find(u=> u.id == req.params.id)
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({
+      data:null,
+      message:"the user with the given id was not found "
+    })
   }
-  res.json({
-    data:user,
-    message : 'ok'
+  const error = validationResult(req)
+  if (!error.notEmpty()) {
+    return res.status(400).json({data:null , errors:error.array() , message: "vilidation"})
+  }
+  Users.map(user=>{
+    if (user.id == req.params.id) {
+      return { ...user , ...req.body}
+    }
+    return user
   })
-
+  res.json({
+    data:Users,
+    message:"ok"
+  })
 })
-
 const port = process.env.PORT || 3000
 app.listen(port, ()=> console.log(`listening on port ${port}`))
 
-app.post("/api/users", (req,res)=>{
-  const user = users.find(u => u.id == req.body.id)
-
-  if (!user) {
-    res.status(404).json({ message: "not fund"  })
-  }else{
-    let name = user.name + " ali"
-    console.log()
-    res.status(200).json({ message: "ok" ,data : name })
-  }
-})
-// کد های بالا باگ داره
