@@ -243,3 +243,10 @@ app.put("/api/users/:id" , [
 const port = process.env.PORT || 3000
 app.listen(port, ()=> console.log(`listening on port ${port}`))
 
+// عاشقتماااااااااااا توله سگگگگ
+
+
+for (let index = 0; index < 100; index++) {
+  console.log("i love you")
+  
+}
