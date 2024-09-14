@@ -209,58 +209,188 @@
 
 
 // api put
+// برای کاربریه که قصد اپدیت کردنشو داریم
+// const { validationResult, body, check } = require("express-validator")
+// let Users = require("./users")
+// // چون در خط 236 باید مقدار یوزرز تغییر بدیم باید از لت استفاده بشه
 
-const { validationResult, body, check } = require("express-validator")
-let Users = require("./users")
-// چون در خط 236 باید مقدار یوزرز تغییر بدیم باید از لت استفاده بشه
 
-
-const express = require('express')
-const app = express() 
-app.use(express.json());
-//  برای خواندن 
-// req.body
-// باید از این کد استفاده شود
-app.put("/api/users/:id" , [
-  check("id").not().isEmpty().withMessage("id وارد کنید"),
-  check("name").not().isEmpty().withMessage("نام را وارد کنید "),
-  check("family").not().isEmpty().withMessage("نام خانوادگی وارد کنید")
-  // برای ولیدیشن ها باید از این کد استفاده بشه در ورژن های جدید تغیر کرده 
-  // این کد میگه اگر مثلا نام وجود داشت و مقدارش خالی بود اوکیه اگر نه اون کامنت نشون میده
-], (req , res)=>{
-  const user = Users.find(u=> u.id == req.params.id)
-  if (!user) {
-    return res.status(404).json({
-      data: null,
-      message:"کاربر وجود ندارد" 
-    })
-  }
-  const error = validationResult(req)
-  if (!error.isEmpty()) {
-    return res.status(400).json({data:null , errors:error.array() , message: "تمامی فیلد ها اجباری هست"})
-  }
+// const express = require('express')
+// const app = express() 
+// app.use(express.json());
+// //  برای خواندن 
+// // req.body
+// // باید از این کد استفاده شود
+// app.put("/api/users/:id" , [
+  // check("id").not().isEmpty().withMessage("id وارد کنید"),
+  // check("name").not().isEmpty().withMessage("نام را وارد کنید "),
+  // check("family").not().isEmpty().withMessage("نام خانوادگی وارد کنید")
+//   // برای ولیدیشن ها باید از این کد استفاده بشه در ورژن های جدید تغیر کرده 
+//   // این کد میگه اگر مثلا نام وجود داشت و مقدارش خالی بود اوکیه اگر نه اون کامنت نشون میده
+// ], (req , res)=>{
+//   const user = Users.find(u=> u.id == req.params.id)
+//   if (!user) {
+//     return res.status(404).json({
+//       data: null,
+//       message:"کاربر وجود ندارد" 
+//     })
+//   }
+//   const error = validationResult(req)
+//   if (!error.isEmpty()) {
+//     return res.status(400).json({data:null , errors:error.array() , message: "تمامی فیلد ها اجباری هست"})
+//   }
   
-  Users = Users.map(u => {
-    if (u.id == req.params.id) {
-      return { ...u, ...req.body }; 
-    }
-    return u;
-  });
-// ایدی ک در پارامز ارسال شده 
-// /api/users/1
-// ویرایش کن و با ایدی قبلی ک در 
-// Users 
-// بود جایگزین کن 
+//   Users = Users.map(u => {
+//     if (u.id == req.params.id) {
+//       return { ...u, ...req.body }; 
+//     }
+//     return u;
+//   });
+// // ایدی ک در پارامز ارسال شده 
+// // /api/users/1
+// // ویرایش کن و با ایدی قبلی ک در 
+// // Users 
+// // بود جایگزین کن 
  
-  res.json({
-    data:Users,
-    message:"ok"
-  })
-})
-const port = process.env.PORT || 3000
-app.listen(port, ()=> console.log(`listening on port ${port}`))
+//   res.json({
+//     data:Users,
+//     message:"ok"
+//   })
+// })
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
 
 
-// توضیحات کامل باید داده شود 
+// // توضیحات کامل باید داده شود 
 
+
+// api delete
+// برای اینکه یک کاربر را حذف کنیم 
+
+// const { validationResult, body, check } = require("express-validator")
+// let Users = require("./users")
+
+// const express = require('express')
+// const app = express() 
+// app.use(express.json());
+
+// app.delete("/api/users/:id" , (req , res)=>{
+//   const user = Users.find(u=> u.id == req.params.id)
+//   if(!user){
+//     return res.status(404).json({
+//       data:null,
+//       message:"user not difind"
+//     })
+//   }
+//    const index = Users.indexOf(user)
+//    Users.splice(index,1)
+//    res.json({
+//     data:Users,
+//     message:"ok"
+//    })
+// })
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// میدلور
+// (req , res) 
+// میدلور هستند 
+
+
+// میدلور شخصی 
+// const express = require('express')
+// const app = express() 
+// app.use((req , res , next)=>{
+//   req.users = {id:1 , name : "maedeh"}
+//   res.send("comming soon")
+//   console.log('midd 1')
+//   next()
+// })
+// برای اینکه درخواست بالا لاگ گرفته شود و به درخواست بعدی برود باید نکست را صدا کنیم
+// به جایی که نکست را صدا میزنیم باید دقت شود
+// app.use((req , res)=>{
+//   console.log('midd 2')
+// })
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+// ما از نکست نمیتونیم دو بار استفاده کنیم برای استفاده مجدد باید دوباره بیایم مثل 
+// app.use
+// بنویسیم و دوباره یه درخواست دیگر بفرستیم و دوباره یک نکست و به همین صورت
+
+
+
+// urlencode میدلور
+// کد های پایین برای این است که از برنامه پست من یک اسم یا هرچیز دیگه ای را ارسال کنیم و از اینجا 
+// قابل تماشا باشد
+// const express = require("express");
+// const { body } = require("express-validator");
+// const app = express()
+// app.use(express.urlencoded({ extended: true }));
+
+// app.post("/api/users",[
+//   body("id").not().isEmpty().withMessage("id وارد کنید"),
+//   body("name").not().isEmpty().withMessage("نام را وارد کنید "),
+//   body("family").not().isEmpty().withMessage("نام خانوادگی وارد کنید")
+// ], (req , res) => {
+//   return console.log(req.body)
+// })
+
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// static میدلور
+// کد های پایین برای اینه که عکسی که داخل پوشه پابلیک هست را در لوکال هاست بالا بیاریم
+// const express = require ("express")
+// const app = express()
+// const helmet = require ("helmet")
+// app.use(express.static('public'))
+// app.use (helmet())
+// که در بالا قرار گرفته است پکیجی است که نصب کردیم برای بالا بردن امنیت برنامه helmet
+// که به صورت دو خط کد که در بالا قرار دارد باید در برنامه هایمان قرار دهیم
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// ما چند تا فاز داریم یکیش تسته که زمانی است که داریم برنامه رو تست میکنیم 
+// یکیش اینه که به ما نشون میده برنامه در حال اجراس 
+// یکیشم مث الان که نه تست میکنیم نه چیزی فقط داریم کد میزنیم 
+// حالا اگر بخواهیم بفهمیم برنامه تو چه فازی است کافی است کد های زیر را به کد هامون اضافه کنیم
+// const express = require ("express")
+// const app = express()
+// const helmet = require ("helmet")
+// const morgan = require ('morgan')
+
+// app.use(express.static('public'))
+// app.use (helmet())
+
+
+// if(app.get('env') === 'development'){
+//   console.log('morgan is active')
+//   app.use(morgan('tiny'))
+// }
+
+// console.log(app.get('env'))
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+// پکیجی است که که به تازگی نصب کردم morgan
+// برای این است که لاگ هامون رو در یک فرمت خیلی خلاصه بیاد اجرا کنه
+
+
+
+// کانفیگ های محیطی
+// یک پکیج وجد دارد که تنظیماتش رو بتونیم اوکی کنیم که در هر محیط یا فازی که بودیم نسبت به
+// همان فاز تنظیمات را انجام دهیم
+// npm i config برای نصب این پکیج باید از این کد در قسمت ترمینال استفاده کنیم
+// تنظیمات این کانفیگ ها برای دولوپمنت داخل فولدر کانفیگ در سه فایل انجام شده است
+// حالا برای استفاده از این ماژول کافی است کد های زیر را به کدهای خودمون اضافه کنیم
+const config = require('config')
+
+console.log("Application Name:" , config.get("name"))
+console.log("Application version:" , config.get("version"))
+console.log("Application SMS:" , config.get("SMS"))
 
