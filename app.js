@@ -7,6 +7,7 @@
 
 // path ماژول
 // این ماژول برای اینه که با ادرس ها کار کنیم
+// ینی اینکه در خط 13 داره ادرس فایل را به ما نشون میده که در کجا ذخیره شده است
 // const path = require('path')
 
 // let parsedPath = path.parse(__filename)
@@ -32,6 +33,7 @@
 
 
 // برای اینکه یک دستور را بخواهیم اجرا کنیم
+// در مثال زیر دستور داده شده که وقتی زنگ بل به صدا در اومد بعد دستور اوپن د دور امجام شود
 // const EventsEmitter = require('events')
 // const emiiter = new EventsEmitter()
 
@@ -51,11 +53,10 @@
 //   res.end()
 // })
 // server.listen(3000)
-// توضیح بیشتر علی باید بده
 
 
 // npm نصب پکیج به کمک 
-// هر پکیجی که میخواهیم نصب کنیم باید وارد سایتش بشویم و کد مه دارد را برای نصبش کپی کنیم
+// هر پکیجی که میخواهیم نصب کنیم باید وارد سایتش بشویم و کد که دارد را برای نصبش کپی کنیم
 // و در قسمت ترمینال بگذاریم و در این صورت نصب خواهد شد 
 // استفاده هر پکیج باهم فرق داره داخل همون سایت طرز استفاده اش هم نوشته شده
 
@@ -75,17 +76,16 @@
 
 // برای نوشتن ای پی یوزر مثل کد های زیر عمل میکنیم
 // const express = require('express')
-
 // const app = express()
 
 // app.get('/api/users',(req , res)=>{
 //   res.send([
-//     {id : 1 , name : users1 },
-//     {id : 2 , name : users2 }
+//     {id : 1 , name : "users1"},
+//     {id : 2 , name : "users2"}
 
 //   ])
 // })
-
+// const port = process.env.port || 3000
 // app.listen(3000 , ()=>console.log('listening on port 3000'))
 // کد های بالا تست نشده است 
 
@@ -210,9 +210,9 @@
 
 // api put
 // برای کاربریه که قصد اپدیت کردنشو داریم
-// const { validationResult, body, check } = require("express-validator")
+// const { validationResult, check } = require("express-validator")
 // let Users = require("./users")
-// // چون در خط 236 باید مقدار یوزرز تغییر بدیم باید از لت استفاده بشه
+// // // چون در خط 236 باید مقدار یوزرز تغییر بدیم باید از لت استفاده بشه
 
 
 // const express = require('express')
@@ -222,9 +222,9 @@
 // // req.body
 // // باید از این کد استفاده شود
 // app.put("/api/users/:id" , [
-  // check("id").not().isEmpty().withMessage("id وارد کنید"),
-  // check("name").not().isEmpty().withMessage("نام را وارد کنید "),
-  // check("family").not().isEmpty().withMessage("نام خانوادگی وارد کنید")
+//   check("id").not().isEmpty().withMessage("id وارد کنید"),
+//   check("name").not().isEmpty().withMessage("نام را وارد کنید "),
+//   check("family").not().isEmpty().withMessage("نام خانوادگی وارد کنید")
 //   // برای ولیدیشن ها باید از این کد استفاده بشه در ورژن های جدید تغیر کرده 
 //   // این کد میگه اگر مثلا نام وجود داشت و مقدارش خالی بود اوکیه اگر نه اون کامنت نشون میده
 // ], (req , res)=>{
@@ -315,15 +315,17 @@
 // })
 // const port = process.env.PORT || 3000
 // app.listen(port, ()=> console.log(`listening on port ${port}`))
-// ما از نکست نمیتونیم دو بار استفاده کنیم برای استفاده مجدد باید دوباره بیایم مثل 
-// app.use
-// بنویسیم و دوباره یه درخواست دیگر بفرستیم و دوباره یک نکست و به همین صورت
+// در صورتی که میدلور شخصی نباشد و درخواست به روی میدلور های اماده برود از اونجا به بعد رو نمیتونیم 
+// دیگه نکست را صدا بزنیم و به بعدی برویم برای اینکه اگر درخواست داخل میدلور اماده اجرا شود دیگر بر روی
+// میلدور شخصی خودمون نمیره در صورتی میره روی میدلور شخصی خودمان که اون میلور اماده اجرا نشه
 
 
 
 // urlencode میدلور
 // کد های پایین برای این است که از برنامه پست من یک اسم یا هرچیز دیگه ای را ارسال کنیم و از اینجا 
 // قابل تماشا باشد
+// فقط در برنامه پست من باید بریم در قسمت بادی و در قسمت فورم یو ار ال در اون قسمت میتونیم چیزی 
+//  بخوایم بنویسیمش
 // const express = require("express");
 // const { body } = require("express-validator");
 // const app = express()
@@ -353,6 +355,8 @@
 // که به صورت دو خط کد که در بالا قرار دارد باید در برنامه هایمان قرار دهیم
 // const port = process.env.PORT || 3000
 // app.listen(port, ()=> console.log(`listening on port ${port}`))
+// بعد از نوشتن این کد ها در گوگل بعد از پورت سه هزار به جای ای پی ای اسم پوشه ای که عکس داخلشه رو 
+// میزاریم
 
 
 
@@ -360,24 +364,24 @@
 // یکیش اینه که به ما نشون میده برنامه در حال اجراس 
 // یکیشم مث الان که نه تست میکنیم نه چیزی فقط داریم کد میزنیم 
 // حالا اگر بخواهیم بفهمیم برنامه تو چه فازی است کافی است کد های زیر را به کد هامون اضافه کنیم
-const express = require ("express")
-const app = express()
-const helmet = require ("helmet")
-const morgan = require ('morgan')
-const debug = require("debug")('app;main')
+// const express = require ("express")
+// const app = express()
+// const helmet = require ("helmet")
+// const morgan = require ('morgan')
+// const debug = require("debug")('app;main')
 
-app.use(express.static('public'))
-app.use (helmet())
+// app.use(express.static('public'))
+// app.use (helmet())
 
 
-if(app.get('env') === 'development'){
-  debug('morgan is active')
-  app.use(morgan('tiny'))
-}
+// if(app.get('env') === 'development'){
+//   debug('morgan is active')
+//   app.use(morgan('tiny'))
+// }
 
-console.log(app.get('env'))
-const port = process.env.PORT || 3000
-app.listen(port, ()=> console.log(`listening on port ${port}`))
+// console.log(app.get('env'))
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
 // پکیجی است که که به تازگی نصب کردم morgan
 // برای این است که لاگ هامون رو در یک فرمت خیلی خلاصه بیاد اجرا کنه
 
@@ -446,3 +450,60 @@ app.listen(port, ()=> console.log(`listening on port ${port}`))
 // کامل نیست کد های بالا  
 
 
+
+// مسئله
+// مسئله زیر میاد داخلش یه ابجکت میسازیم و اطلاعات داخل اون ابجکت رو در بادی لاگ میگیریم به نوعی
+// const express = require('express')
+// const app =express()
+
+// app.post('/api/users',(req,res)=>{
+//   res.send({name:'maedeh',family:'khanzadeh'})
+//   return 
+// })
+
+
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// مسئله
+// مسئله زیر کد هاییه که وقتی بخواهیم از طریق ماژول بندی یه سری اطلاعات دریافت کیم
+// const express=require('express')
+// let users = require("./users")
+// const app = express()
+
+// app.get('/api/users',(req , res)=>{
+//   res.json(users)
+
+// })
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// به مسئله بالا میخوایم یک گاربر اضافه کنیم
+// const express=require('express')
+// let users = require("./users")
+// const app = express()
+
+// app.use(express.json()); // اضافه کردن این خط برای پارس کردن JSON
+
+// app.get('/api/users',(req , res)=>{
+//   res.json(users)
+
+// })
+
+// app.post('/api/users', (req , res)=>{
+//   const newUser = req.body
+//   if ( newUser && newUser.name && newUser.famyli ) {
+//     newUser.id = users.length+1
+//     users.push(newUser)
+//     res.status(200).json(newUser)
+//   }else{
+//     res.status(404).json({error: 'undifind'})
+//   }
+  
+// })
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
