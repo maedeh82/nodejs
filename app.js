@@ -368,7 +368,7 @@
 // const app = express()
 // const helmet = require ("helmet")
 // const morgan = require ('morgan')
-// const debug = require("debug")('app;main')
+// const debug = require("debug")('app:main')
 
 // app.use(express.static('public'))
 // app.use (helmet())
@@ -404,6 +404,7 @@
 
 
 
+// برای اینکه با اطلاعات حساس چجوری رفتار کنیم
 // وقتی بخواهیم یک متغیر رو ست کنیم در قسمت ترمینال کد زیر راه مینویستیم
 // این فرم برای اطلاعات حساسمون است
 // set expressapp_smskey=123456
@@ -420,22 +421,21 @@
 // npm i debug برای نصب این بکیج در قسمت ترمینال این کد را باید بزنیم
 // با استفاده از این پکیج میتوانیم لاگ گرفتنمونو هر موثع که خواستیم استفاده نکنیم
 // یا اینکه نزاریم خونده بشه اون کنسول دات لاگی که نوشتیم یه همچین چیزی که انگار غیر فعال میکنیم لاگ هار
-// const debug = require("debug")('app;main')
+// const debug = require("debug")('app:main')
+// اپ ماین که در کد بالا نوشته شده است یک اسم اختیاری است
 // اول باید کد بالا در پروژه باشد بعد میتونیم مث کد پایین ازش استفاده کنیم
 // برای مثال به جای کنسول دات لاگ میایم کد پایین را مینوسیم
 // debug('hello world')
 // برای اینکه دیباگ فعال شود باید از یک متغیر محیطی استفاده کنیم در قسمت ترمینال کد زیر زده شود
-// DEBUG=app:main
+// set DEBUG=app:main
 
-
-// >>>>>>>>>>> این کد یک باگ داره که میگه به خاطر فرمت اشتباه در ویندوز <<<<<<<<<<<<
+// >>>>>>>>>باگش اینه که لاگ نمیگیره <<<<<<<<<<
 
 
 // برای اینکه غیر فعال شود متغیر محیطی بالا کافیه کد زیر را در قسمت ترمینال بزنیم
-// DEBUG=
+// set DEBUG=
 // یدونه دیگ هم از دیباگ هست که در پایین گذاشتم کدشو
 // dbdebug("hello world")
-// ولی قسمت دیباگ رو مشکل دارم کلا علی باید توضیح بده
 
 
 
@@ -457,7 +457,7 @@
 // const app =express()
 
 // app.post('/api/users',(req,res)=>{
-//   res.send({name:'maedeh',family:'khanzadeh'})
+//   res.send({name : 'maedeh' , family: 'khan'})
 //   return 
 // })
 
@@ -496,7 +496,6 @@
 
 // app.post('/api/users', (req , res)=>{
 //   const newUser = req.body
-//   if ( newUser && newUser.name && newUser.famyli ) {
 //     newUser.id = users.length+1
 //     users.push(newUser)
 //     res.status(200).json(newUser)
@@ -507,3 +506,39 @@
 // })
 // const port = process.env.PORT || 3000
 // app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+
+
+// ویو انجین
+// فایلمون رو اچ تی ام الی میکنه
+// ejs
+// باید نصب کرد پکیج ای جی اس را 
+// npm i ejs
+// بعداز نصبش باید به نود جی اس بگیم که از چه ویو انجینی میخوایم استفاده کنیم
+// بین کد هامون کد زیر رو مینویسیم
+// app.set('view engine' , 'ejs')
+// و با کد پایین فولدری که ویو هامون توش قرار داره رو میایم به نود جی اس میفهمونیم
+// app.set('views' , './views')
+// بعد میریم یه فولدر درست میکنیم به اسم ویوس و داخل یک فایل درست میکنیم به اسم
+// home ejs
+// و داخل اون فایل کد های زیر را میگذاریم
+// برای استفاده از ویو در کد هامون به شکل زیر است
+// app.get("/", (req,res)=>{
+//   res.render('home')
+// })
+
+
+// کد های زیر تست ویو انجین بالا است
+const express = require('express')
+const app = express()
+app.set('view engine' , 'ejs')
+app.set('views' , './views')
+
+app.get("/", (req,res)=>{
+  res.render('home')
+})
+
+const port = process.env.PORT || 3000
+app.listen(port, ()=> console.log(`listening on port ${port}`))
