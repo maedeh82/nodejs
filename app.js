@@ -531,14 +531,72 @@
 
 
 // کد های زیر تست ویو انجین بالا است
-const express = require('express')
-const app = express()
-app.set('view engine' , 'ejs')
-app.set('views' , './views')
+// const express = require('express')
+// const app = express()
+// app.set('view engine' , 'ejs')
+// app.set('views' , './views')
 
-app.get("/", (req,res)=>{
-  res.render('home')
-})
+// app.get("/", (req,res)=>{
+//   res.render('home')
+// })
 
-const port = process.env.PORT || 3000
-app.listen(port, ()=> console.log(`listening on port ${port}`))
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// ریفکتور کردن کد ها
+// ریفکتور کردن ینی ساختار پروژه تغییر کرده بدون اینکه رفتارش تغییر کنه
+// یه نوع مرتب کردن مث ماژول بندی میمونه که برای تمیز تر شدن کدمون بهتره که اینکارو کنیم
+// ابتدا یک فودر به اسم زیر ایجاد میکنیم
+// routes
+// و بعد داخلش یک فایل باز میکنیم به اسم زیر 
+// users.js
+// بعدش کد هامون که با اپ شروع میشن رو داخلش میریزیم و بعد کد های زیر را در دو خط اول وارد میکنیم
+// const express = require("express")
+// const router = express.Router()
+// و در ادامه هرچی کد که با اپ شروع میشه رو قسمت اپ را به روتر تغییر میدهیم به شکل کد های زیر میشود
+// app.post       =>       router.post
+// و بعد کد های زیر را باید به فایل یوزر اضافه کنیم
+// module.exports = router
+// بعد برای اینکه اون کد هایی که در ان فایل است رو استفاده کنیم کد های زیر به کد های اصلیمون باید 
+// اضافه کنیم
+// const userRouter = require('./routers/users')
+// و حالا وقتی بخوایم استفاده کنیمش به صورت یک میدلور مث کد های پایین استفاده اش میکنیم
+// app.use('/api/users', userRouter)
+
+
+// تست مسئله برای کد های بالا
+// const express = require('express')
+// const app = express()
+// const userRouter = require('./routers/users')
+
+
+// app.use('/api/users', userRouter)
+
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=> console.log(`listening on port ${port}`))
+
+
+
+// دیتابیس
+// mongoose
+// ابتدا باید این پکیج را نصب کنیم کد های پایین را در ترمینال بزنید
+// npm i mongoose
+// یرای اینکه در کد هامون از این پکیج استفاده کنیم باید کد زیر را به کد هامون اضافه کنیم
+const mongoose = require('mongoose')
+// حالا برای اینکه این پکیج را کانکت کنیم باید از کد زیر استفاده کنیم
+mongoose.connect('mongodb://localhost:27017/mongoproject')
+// استرینگ داخل پرانتز بالا ادرسی است که ما بهش میدیم روش اجرا شه و عدد 
+// 27017 
+// پورت دیفالت مونگو دیبی است
+// در خط 589 کدی که نوشتیم اگر همچین دیتا بیسی وجود داشته باشه بهش متصل میشه اگر نه میسازه این دیتابیس
+// رو و بعد بهش متصل میشه
+// بهتره که این کد هارو در پوشه کانفیگ ذخیره کنیم    <<<<<<<<<<
+
+// حالا اگر با موفقیت به دیتابیس وصل شد کد پایین اجرا میشه
+.then(()=>{console.log('connected to mongodb')})
+// اگر مشکل داشت کدمون کد های زیر اجرا میشه
+.catch((error)=>{console.log('could not connected to mongodb')})
+
+// ادامه این اموزشا رو باید باید ببینم الان دقیقه 4:40 هستم
