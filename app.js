@@ -597,6 +597,452 @@ mongoose.connect('mongodb://localhost:27017/mongoproject')
 // حالا اگر با موفقیت به دیتابیس وصل شد کد پایین اجرا میشه
 .then(()=>{console.log('connected to mongodb')})
 // اگر مشکل داشت کدمون کد های زیر اجرا میشه
-.catch((error)=>{console.log('could not connected to mongodb')})
+.catch((error)=>{console.log('could not connected to mongodb')})  
 
-// ادامه این اموزشا رو باید باید ببینم الان دقیقه 4:40 هستم
+
+
+// اسکیما
+// schema
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+  // کد خط بالا و خط پایین یک کار را انجام میدهند ولی خط پایین در ادامه اش میگه که برای مثال پر کردن
+  // فلان فیلد ضروری است
+  // last_name:{type:String,required:true},
+  // favorites:[String],
+  // data:{type:Date,default:Date.now},
+  // admin:Boolean
+// })
+// قسمت ریکوایر و وقتی ترو میزاریم ینی فیلد اجباریه
+// کلید ها یا مقدار هایی که میخواهیم درون کالکشنمون وجود داشته باشه باید در ابجکت یا {}بالا قرار بگیرد
+// برای استفاده از کد های بالا باید یوزر بسازیم که برای این کار باید ابتدا مدل درست کنیم به شکل زیر
+// const User = mongoose.model('User', userschema)
+// const user = new User({
+  // first_name:'maedeh',
+  // last_name:'khan',
+  // favorites:['music','movi'],
+  // admin:true
+  //})
+// دقت کن که در کد های بالا فقط یک ابجکت داریم میسازیم که در دیتا بیس هم ذخیره نمیشود
+// برای اینکه کد های بالا در دیتابیس ذخیره شود فقط کافیه کد پایین را صدا کنیم
+// user.save()
+// فقط برای اجرای بهتر کد های بهتر است مثل کد های پایین پیش بری
+
+
+// برای استفاده از کد های بالا یکبار دیگه اومدم نوشتمشون که مرتب ازشون استفاده کنم
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// createUser()
+
+
+
+
+
+// کوئری نویسی 
+// مثل کد های بالا میمونه با یه سری تغییرات ریز که ببینی خودت متوجه میشی
+// کاری که کوئر نویسی میکنه اینه که به ما اجازه میدهد که بتوانیم چیزی که میخوایم رو فقط لاگ بگیره 
+// برای مثال میگیم کسی ک اسم مائده رو در کد ها دارند رو فقط برای من لاگ بگیر
+// یا کسی که ادمینه رو به من نشون بده و از این قبیل کارها
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   // در کد زیر داخل پرانتز فایند یک {}یا ابجکت میتونیم بزاریم و چیزی ک میخوایم رو فقط لاگ بگیره
+//   const users = await User.find({first_name:'maedeh'})
+//   console.log(users)
+// }
+// getUsers()
+
+
+
+
+// عملگر ها در مانگو
+// برای مثال میخواهیم تمام کاربر هایی ک سنشون 27 ساله رو برگردونه از کد های زیر استفاده میکنیم
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     age:27,
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   const users = await User.find({age:{$eq:27}})
+//   console.log(users)
+// }
+// getUsers()
+// کد بالا تست نشده
+// چند تا علامت هایی داریم که پایین معنی هرکدومو زیرش مینویسم
+// eq
+// میگه که هر کس که با شرطی که گذاشتیم یکی بود رو نشون بده
+// nq
+// میگه که هرکسی که با شرطی که گذاشتیم یکی بود رو نشون نده بقیه رو نشون بده
+// gt 
+// کاربر هایی رو بهمون نشون میده که بزرگتر از عددی که نوشتیم یا سنی که نوشتیم باشند
+// gte
+// مثل جی تی میمونه فقط فرقش اینه که بزرگتر مساوی رو نشون میده ینی خود اون عدد هم نشون میده 
+// lt 
+// کاربر هایی که کمتر از اون عدد هستند رو نشون میده 
+// lte 
+// کاربرهایی که کمتر و مساوی همون عدد هست رو نشون میده
+// in 
+// کاربرهایی رو نشون میده که اون اعدادی که ما وارد میکنیم است 
+// nin
+// کاربر هایی که وارد میکنیم رو نشون نمیده برعکس بالایی است
+
+
+
+// or کوئری
+// برای مثال ما دوتا شرط رو میزاریم که اگ یکیش پیدا شد اون شرط رو عملی کنه مثل کد های زیر 
+// تغییری کد ها در قسمت فایند انجام میشود 
+// کلمه اور به معنی این است که اگر یکی از شرط ها درست بود اجراش کن
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     age:27,
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   const users = await User.find().or([{first_name:'mohamad'},{admin:true}])
+//   console.log(users)
+// }
+// getUsers()
+
+
+
+
+// pagination
+// مثل کاری که سایتا انجام میدن میمونه مثلا یه سری اطلاعات در صفحه اول میباشد اگر بخوایم ادامشو ببینیم 
+// باید به صفحه دوم برویم 
+// مثلا میخواییم الان درست کنیم که در هر صفحه 8 تا از اطلاعاتی که میخوایم رو قرار دهیم
+// کد های این داستانا در قسمت اسینک فانکشن گت یوزر است
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     age:27,
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   const pageNumber = 1
+//   const pageSize = 8
+//   const users = await User.find()
+//   .skip((pageNumber - 1)* pageSize)
+//   .limit(pageSize)
+//   console.log(users)
+// }
+// getUsers()
+
+
+
+
+// بروزرسانی داکیومنت ها به وسیله مانگوس
+// دو نوع روش داریم برای اینکار
+// برای روش اول 
+// داکیومنت رو میگیریم تغییرش میدیم و دوباره سیوش میکنیم
+// ابتدا باید ایدی مورد نظرمون رو پیدا کنیم که تغییرش بدیم که در خط 833 اینکار را انجام میدهیم
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     age:27,
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   const users = await User.find()
+//   console.log(users)
+// }
+// async function updateUser(id){
+//   const user = await User.findById(id)
+//   // حالا اگر این یوزر وجود نداشت میگیم بقیه کد هارو انجام نده اگر وجود داشت که تغییرات رو اعمال میکنیم
+//   // برای اینکار از کد های زیر استفاده میکنیم
+//   if (!user)return 
+//   user.admin = true
+//   user.first_name = "updated name"
+//   await user.save()
+// }
+// // برای اعدادی که داخل پرانتز زیر نوشته شده است باید بریم از برنامه مونگودی بی ایدی کار بر مورد نظر را 
+// // در پرانتز زیر کپی کنیم
+// updateUser('67064883d3b98fc769af6f20')
+
+
+// روش دوم از موضوع بالا
+// در روش دوم نیاز نیست اول دریافت کنیم بعد اپدیت کنیم میتونیم مستقیم اپدیت کنیم
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     age:27,
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   const users = await User.find()
+//   console.log(users)
+// }
+// async function updateUser(id){
+//   const result = await User.update({_id: id},{
+//     $set:{
+//       first_name: 'ali'
+//     }
+//   })
+//   console.log(result)
+// }
+// updateUser("67064883d3b98fc769af6f20")
+// کد های بالا ارور داره
+
+
+
+
+// پاک کردن داکیومنت 
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     age:27,
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// async function getUsers(){
+//   const users = await User.find()
+//   console.log(users)
+// }
+// async function updateUser(id){
+//   const result = await User.update({_id: id},{
+//     $set:{
+//       first_name: 'update name 2'
+//     }
+//   })
+//   console.log(result)
+// }
+
+// async function removeUser (id){
+//   const result = await User.deleteOne({_id: id})
+//   console.log(result)
+// }
+// removeUser("67064883d3b98fc769af6f20")
+
+// برای اینکه چند تا یوزر حذف کنیم کافیه به جای 
+// deleteOne
+// از 
+// deleteMany
+// استفاده کنیم
+
+
+
+
+// ولیدیتور 
+// مهم ترین و پرکاربرد ترین ولیدیتور 
+// require است
+// که میتونیم برای اینکه فیلد هامون رو اجباری کنیم ازش استفاده کنیم
+// که در خط 941 ما با استفاده از اون کد اون فیلد رو اجباری کردیم
+// const userschema = new mongoose.Schema({
+//   first_name:String,
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// createUser()
+
+
+
+// انواع ولیدیتور ها 
+// minlength , maxlength
+// برای مثال اگر یک فرست نیمی میخواست ذخیره بشه میتونیم براش یه شرطی بزاریم ک برای مثال کمترین حدی 
+// که میتونه از کلمات استفاده کنه و بیشترین حدش چقدر باشد 
+// تغییرات این ولیدیتور در خط 967
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String,minlength:3 , maxlength:20},
+// last_name:{type:String,required:true},
+// favorites:[String],
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// createUser()
+
+
+// ولیدیتور بعدی برای قسمت علاقه مندی ها است که یکسری گزینه داره طرف و خارج از اون نمیتونه انتخاب کنه
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String,minlength:3 , maxlength:20},
+// last_name:{type:String,required:true},
+// favorites:{ type : [String], enum:[
+//   "sport",
+//   "data science",
+//   "productivity",
+//   "programming",
+//   "music",
+//   "politics",
+//   "health"
+// ]},
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// createUser()
+
+
+
+// ولیدیتور بعدی برای عدد باشد هم در قسمت سن گذاشته شده است
+const userschema = new mongoose.Schema({
+  first_name:{type:String,minlength:3 , maxlength:20},
+last_name:{type:String,required:true},
+age: {type: number, min:8 , max:120},
+favorites:{ type : [String], enum:[
+  "sport",
+  "data science",
+  "productivity",
+  "programming",
+  "music",
+  "politics",
+  "health"
+]},
+data:{type:Date,default:Date.now},
+admin:Boolean
+})
+const User = mongoose.model('User', userschema)
+async function createUser(){
+  const user = new User({
+    first_name:'maedeh',
+    last_name:'khan',
+    favorites:['music','movi'],
+    admin:true
+  })
+  const result = await user.save()
+  console.log(result)
+}
+createUser()
+// بیشتر کد های بالا صرفا جهت اینکه کد هارو یادبگیری هست و در اینکه معنی خاصی نمیدهد و ممکن است 
+// کد ها اجرا نشود  
