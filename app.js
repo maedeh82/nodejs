@@ -584,9 +584,9 @@
 // ابتدا باید این پکیج را نصب کنیم کد های پایین را در ترمینال بزنید
 // npm i mongoose
 // یرای اینکه در کد هامون از این پکیج استفاده کنیم باید کد زیر را به کد هامون اضافه کنیم
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 // حالا برای اینکه این پکیج را کانکت کنیم باید از کد زیر استفاده کنیم
-mongoose.connect('mongodb://localhost:27017/mongoproject')
+// mongoose.connect('mongodb://localhost:27017/mongoproject')
 // استرینگ داخل پرانتز بالا ادرسی است که ما بهش میدیم روش اجرا شه و عدد 
 // 27017 
 // پورت دیفالت مونگو دیبی است
@@ -595,9 +595,9 @@ mongoose.connect('mongodb://localhost:27017/mongoproject')
 // بهتره که این کد هارو در پوشه کانفیگ ذخیره کنیم    <<<<<<<<<<
 
 // حالا اگر با موفقیت به دیتابیس وصل شد کد پایین اجرا میشه
-.then(()=>{console.log('connected to mongodb')})
+// .then(()=>{console.log('connected to mongodb')})
 // اگر مشکل داشت کدمون کد های زیر اجرا میشه
-.catch((error)=>{console.log('could not connected to mongodb')})  
+// .catch((error)=>{console.log('could not connected to mongodb')})  
 
 
 
@@ -859,7 +859,7 @@ mongoose.connect('mongodb://localhost:27017/mongoproject')
 //     first_name:'maedeh',
 //     last_name:'khan',
 //     age:27,
-//     favorites:['music','movi'],
+//     favorites:['music','movie'],
 //     admin:true
 //   })
 //   const result = await user.save()
@@ -870,15 +870,14 @@ mongoose.connect('mongodb://localhost:27017/mongoproject')
 //   console.log(users)
 // }
 // async function updateUser(id){
-//   const result = await User.update({_id: id},{
+//   const result = await User.findByIdAndUpdate({_id: id},{
 //     $set:{
 //       first_name: 'ali'
 //     }
-//   })
+//   }, {new:true})
 //   console.log(result)
 // }
-// updateUser("67064883d3b98fc769af6f20")
-// کد های بالا ارور داره
+// updateUser("6706615b74343b0a4fd74133")
 
 
 
@@ -1016,33 +1015,101 @@ mongoose.connect('mongodb://localhost:27017/mongoproject')
 
 
 // ولیدیتور بعدی برای عدد باشد هم در قسمت سن گذاشته شده است
-const userschema = new mongoose.Schema({
-  first_name:{type:String,minlength:3 , maxlength:20},
-last_name:{type:String,required:true},
-age: {type: number, min:8 , max:120},
-favorites:{ type : [String], enum:[
-  "sport",
-  "data science",
-  "productivity",
-  "programming",
-  "music",
-  "politics",
-  "health"
-]},
-data:{type:Date,default:Date.now},
-admin:Boolean
-})
-const User = mongoose.model('User', userschema)
-async function createUser(){
-  const user = new User({
-    first_name:'maedeh',
-    last_name:'khan',
-    favorites:['music','movi'],
-    admin:true
-  })
-  const result = await user.save()
-  console.log(result)
-}
-createUser()
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String,minlength:3 , maxlength:20},
+// last_name:{type:String,required:true},
+// age: {type: number, min:8 , max:120},
+// favorites:{ type : [String], enum:[
+//   "sport",
+//   "data science",
+//   "productivity",
+//   "programming",
+//   "music",
+//   "politics",
+//   "health"
+// ]},
+// data:{type:Date,default:Date.now},
+// admin:Boolean
+// })
+// const User = mongoose.model('User', userschema)
+// async function createUser(){
+//   const user = new User({
+//     first_name:'maedeh',
+//     last_name:'khan',
+//     favorites:['music','movi'],
+//     admin:true
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+// createUser()
 // بیشتر کد های بالا صرفا جهت اینکه کد هارو یادبگیری هست و در اینکه معنی خاصی نمیدهد و ممکن است 
 // کد ها اجرا نشود  
+
+
+
+
+// مسئله
+// برای وارد کرن اطلاعات کاربران و شرط گذاشتن برایشان
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String,minlength:3},
+//   last_name:{type:String,minlength:3},
+//   national_code:{type:String,maxlength:10},
+//   phone_number:{type:String,minlength:10,maxlength:11}
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'maedeh',
+//   last_name:'khanzadeh',
+//   national_code:'0312690819',
+//   phone_number:'09337865907'
+// })
+// console.log(user)
+
+
+
+
+// ولیدیتور شخصی
+// ما با ریکوایر میتونیم یک ابجکت خالی بسازیم بدون اینکه بهمون گیری بده مثل کد زیر 
+// کد اصلیشم خط 1000 هست قسمتی که ریکوایر کردیم
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String},
+//   last_name:{type:String},
+//   favorite:{type:[String], require:true}
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'maedeh',
+//   last_name:'khanzadeh',
+//   favorite:[]
+// })
+// console.log(user)
+// در کد های بالا الان دیگه به فیوریت که خالیه گیر نمیده 
+
+// و حالا برای ساخت ولیدیتور شخصی از د های زیر استفاده میکنیم
+const mongoose = require('mongoose')
+const userschema = new mongoose.Schema({
+  first_name:{type:String},
+  last_name:{type:String},
+  favorite:{type:[String],
+     require:true,
+     validate:{
+    validator:function(v){
+      return v && v.length>0
+    },
+    message:'not find'
+  }}
+})
+const User = mongoose.model('User',userschema)
+const user = new User({
+  first_name:'maedeh',
+  last_name:'khanzadeh',
+  favorite:[]
+})
+console.log(user)
+
+
+
+

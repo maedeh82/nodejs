@@ -15,5 +15,10 @@
   "devDependencies": {
     "jshint": "^2.13.6"
 
+  },
+  "scripts":{
+    "start": "nodemon app"
   }
 }
+
+
