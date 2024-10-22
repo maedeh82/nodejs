@@ -1089,27 +1089,261 @@
 // در کد های بالا الان دیگه به فیوریت که خالیه گیر نمیده 
 
 // و حالا برای ساخت ولیدیتور شخصی از د های زیر استفاده میکنیم
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String},
+//   last_name:{type:String},
+//   favorite:{type:[String],
+//      require:true,
+//      validate:{
+//     validator:function(v){
+//       return v && v.length > 0
+//     },
+//     message:'not find'
+//   }}
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'maedeh',
+//   last_name:'khanzadeh',
+//   favorite:[]
+// })
+// user.save()
+//   .then(() => console.log('User saved successfully'))
+//   .catch(err => console.error('Error:', err.message))
+  // از کد های دن و کچ باید استفاده کنیم تا کدمون اعتبار سنجی بشه تا اروری ک تنظیم شده را به ما 
+  // نشون بده
+
+
+
+
+// ابجکت های مهم اسکیما تایپ
+// schema type
+// min length
+// max length
+// require
+// validate
+// برای ابجکت هایی که تایپشون استرینگ باشه سه تا دیگه تایپ وجود داره
+// اولیش کد زیر است که در کد هامون قرارش بدیم اگر حروف بزرگی در اسم باشه خودش میاد به حروف کوچک تبدیل
+// به حروف کوچیکش میکنه
+// lowercase: true
+// کد بالا رو باید جایی بزاریم که استرینگه مثلا در فرست نیم یا لست نیم 
+// مثال زیر برای موضوع بالا
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String , lowercase: true},
+//   last_name:{type:String},
+//   favorite:{type:[String], require:true }
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'MAEDEH',
+//   last_name:'khanzadeh',
+//   favorite:[]
+// })
+// console.log(user)
+
+
+// برای دومین ابجکتی که تایپش استرینگ است از کد زیر استفاده میکنیم
+// uppercase: true
+// کار کد بالا اینه ک حروف کوچک را به بزرگ تبدیل میکند 
+// مثل مثال زیر 
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String , uppercase: true},
+//   last_name:{type:String},
+//   favorite:{type:[String], require:true }
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'maedeh',
+//   last_name:'khanzadeh',
+//   favorite:[]
+// })
+// console.log(user)
+
+
+// و سومین ابجکتی که تایپش استرینگ است هم از کد زیر استفاده میکنیم
+// trim: true
+// کار کد بالا این هست که اگر قبل و بعد اون کلمه استرینگی که نوشتیم فاصله ای وجود داشت اون هارو
+// حذف میکند
+// مثل کد های زیر 
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String , lowercase: true , trim: true},
+//   last_name:{type:String},
+//   favorite:{type:[String], require:true }
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'   Maedeh   ',
+//   last_name:'khanzadeh',
+//   favorite:[]
+// })
+// console.log(user)
+
+
+// set
+// دو تا پراپرتی دیگ هم وجود داره که ان ها هم به نوعی تغییراتی انجیم میدهند 
+// اولیش پراپرتی ست هست که میاد قبل از اینکه در دیتا بیس ذخیره بشه میاد یه سری تغییرات روی اون ذخیره 
+// میکنه
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String , lowercase: true , trim: true},
+//   last_name:{type:String},
+//   salary:{type:Number, required:true , set: v=> Math.round(v)},
+//   favorite:{type:[String], require:true }
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'   Maedeh   ',
+//   last_name:'khanzadeh',
+//   salary:16.6,
+//   favorite:[]
+// })
+// console.log(user)
+// درکد بالا که از ست استفاده شده میاد عددی که وارد شده رو رند میکنه بعد داخل دیتابیس ذخیره میکند
+// ولی ست باعث این نشده که عدد گرد شه قسمت دومش ک مت نوشته شده اون کد باعث گرد شدن عدد شده است 
+// ولی استفاده از ست میخواد اینو برسونه که قبل از اینکه داخل دیتابیس ذخیره شود تغییرات اعمال میشود 
+// بعد ذخیره میشو
+
+
+
+
+// get
+// حالا این پراپرتی وقتی روی دیتابیس ذخیره شد بعدش میاد تغییرات رو ذخیره میکنه
+// const mongoose = require('mongoose')
+// const userschema = new mongoose.Schema({
+//   first_name:{type:String , lowercase: true , trim: true},
+//   last_name:{type:String},
+//   salary:{type:Number, required:true , get: v=> Math.round(v)},
+//   favorite:{type:[String], require:true }
+// })
+// const User = mongoose.model('User',userschema)
+// const user = new User({
+//   first_name:'   Maedeh   ',
+//   last_name:'khanzadeh',
+//   salary:16.6,
+//   favorite:[]
+// })
+// console.log(user)
+// در کد بالا به جای ست از گت استفاده شده است و این باعث میشه که داخل دیتابیس همان 16.6 ذخیره شود 
+// ولی بعد از اجرای این کد برای ما رندش کنه و مقدار اصلیش داخل دیتابیس باشد
+
+
+
+// اتصال پروژه اصلی به دیتا بیس
+// ابتدا باید پکیج مانگوز را نصب کنیم به شکل زیر 
+// npm i mongoose
+// بعدش در فایل اپ دات جی اس میرویم و با کد زیر ارتباط با مانگوز برقرار میکنیم 
+// ینی کد زیر را در اپ دات جی اس مینویسیم
+// const { Router } = require('express')
+// const mongoose = require('mongoose')
+// // و در ادامه کد های زیر را وارد میکنیم برای برقراری ارتباط با دیتابیس
+// const router = Router()
+// const app = express()
+// app.use(express.json())
+// mongoose
+//   .connect("mongodb://localhost:27017/helloexpress")
+//   .then(()=> console.log('connected to mongodb'))
+//   .catch(()=> console.log('could not connect to mongodb'))
+//   باید یک اسیکما هم ساخته بشه ولی به طور کلی کد میشه مثل کد های زیر
+
+// شکل کلی کد اتصال به دیتابیس 
+const express = require('express')
 const mongoose = require('mongoose')
-const userschema = new mongoose.Schema({
-  first_name:{type:String},
-  last_name:{type:String},
-  favorite:{type:[String],
-     require:true,
-     validate:{
-    validator:function(v){
-      return v && v.length>0
-    },
-    message:'not find'
-  }}
+const { Router } = require('express')
+
+const app = express()
+const router = Router()
+
+app.use(express.json())
+
+mongoose
+  .connect("mongodb://localhost:27017/helloexpress")
+  .then(() => console.log('connected to mongodb'))
+  .catch(() => console.log('could not connect to mongodb'))
+
+  const userschema = mongoose.Schema({
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true }
+  })
+  
+  const User = mongoose.model("User", userschema)
+  
+  router.get("/", async (req, res) => {
+    const users = await User.find()
+    res.json({
+      data: users,
+      message: "ok"
+    })
+  })
+  
+  router.get("/:id", async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (!user)
+      return res.status(404).json({
+        data: null,
+        message: "the user with the given id was not found"
+      })
+    res.json({
+      data: user,
+      message: "ok"
+    })
+  })
+  
+  router.post("/", async (req, res) => {
+    let newUser = new User({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email
+    })
+    newUser = await newUser.save()
+    res.json({
+      data: newUser,
+      message: "ok"
+    })
+  })
+  
+  router.put("/:id", async (req, res) => {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
+      },
+      { new: true }
+    )
+    if (!user) {
+      return res.status(404).json({
+        data: null,
+        message: "the user with the given id was not found"
+      })
+    }
+    res.json({
+      data: user,
+      message: "ok"
+    })
+  })
+
+  router.delete("/:id",async(req,res)=>{
+    const user = await User.findByIdAndRemove(req.params.id)
+
+  if (!user) {
+    return res.status(404).json({
+      data:null,
+      message:"the user whit the given id was not found"
+    })
+  }
+  res.json({
+    data: user,
+    message : "ok"
+  })
 })
-const User = mongoose.model('User',userschema)
-const user = new User({
-  first_name:'maedeh',
-  last_name:'khanzadeh',
-  favorite:[]
-})
-console.log(user)
-
-
-
-
+  app.use("/users", router)
+  
+  const port = process.env.PORT || 3000
+  app.listen(port, () => console.log(`listening on port ${port}`))
+  module.exports = userschema
