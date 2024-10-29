@@ -1250,100 +1250,38 @@
 //   باید یک اسیکما هم ساخته بشه ولی به طور کلی کد میشه مثل کد های زیر
 
 // شکل کلی کد اتصال به دیتابیس 
-const express = require('express')
+
 const mongoose = require('mongoose')
-const { Router } = require('express')
+const express = require('express')
+const {Router} = require('express')
+const User = require('./models/user')
 
 const app = express()
-const router = Router()
+const userRouter = Router()
 
 app.use(express.json())
 
+app.use('/api/users',userRouter)
 mongoose
   .connect("mongodb://localhost:27017/helloexpress")
   .then(() => console.log('connected to mongodb'))
-  .catch(() => console.log('could not connect to mongodb'))
+  .catch(err => console.log('could not connect to mongodb',err))
 
-  const userschema = mongoose.Schema({
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
-    email: { type: String, required: true }
-  })
-  
-  const User = mongoose.model("User", userschema)
-  
-  router.get("/", async (req, res) => {
+
+  userRouter.get('/', async (req, res) => {
     const users = await User.find()
-    res.json({
-      data: users,
-      message: "ok"
-    })
+    res.send(users)
   })
   
-  router.get("/:id", async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (!user)
-      return res.status(404).json({
-        data: null,
-        message: "the user with the given id was not found"
-      })
-    res.json({
-      data: user,
-      message: "ok"
-    })
+  userRouter.post('/', async (req, res) => {
+    const newUser = new User(req.body)
+    await newUser.save()
+    res.send(newUser)
   })
   
-  router.post("/", async (req, res) => {
-    let newUser = new User({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email
-    })
-    newUser = await newUser.save()
-    res.json({
-      data: newUser,
-      message: "ok"
-    })
-  })
+  app.use('/api/users', userRouter)
   
-  router.put("/:id", async (req, res) => {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email
-      },
-      { new: true }
-    )
-    if (!user) {
-      return res.status(404).json({
-        data: null,
-        message: "the user with the given id was not found"
-      })
-    }
-    res.json({
-      data: user,
-      message: "ok"
-    })
-  })
 
-  router.delete("/:id",async(req,res)=>{
-    const user = await User.findByIdAndRemove(req.params.id)
-
-  if (!user) {
-    return res.status(404).json({
-      data:null,
-      message:"the user whit the given id was not found"
-    })
-  }
-  res.json({
-    data: user,
-    message : "ok"
-  })
-})
-  app.use("/users", router)
-  
   const port = process.env.PORT || 3000
   app.listen(port, () => console.log(`listening on port ${port}`))
-  module.exports = userschema
+
