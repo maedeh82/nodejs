@@ -1250,38 +1250,103 @@
 //   باید یک اسیکما هم ساخته بشه ولی به طور کلی کد میشه مثل کد های زیر
 
 // شکل کلی کد اتصال به دیتابیس 
+// با کد های زیر و کد هایی که در فایل 
+// user.js 
+//قرار دارد میتوانیم در پست من درخواست بزنیم و در مونگو دیبی کاربر را ذخیره کنیم
 
+// const mongoose = require('mongoose')
+// const express = require('express')
+// const {Router} = require('express')
+// const User = require('./models/user')
+
+// const app = express()
+// const userRouter = Router()
+
+// app.use(express.json())
+
+// app.use('/api/users',userRouter)
+// mongoose
+//   .connect("mongodb://localhost:27017/helloexpress")
+//   .then(() => console.log('connected to mongodb'))
+//   .catch(err => console.log('could not connect to mongodb',err))
+
+
+//   userRouter.get('/', async (req, res) => {
+//     const users = await User.find()
+//     res.send(users)
+//   })
+  
+//   userRouter.post('/', async (req, res) => {
+//     const newUser = new User(req.body)
+//     await newUser.save()
+//     res.send(newUser)
+//   })
+  
+//   app.use('/api/users', userRouter)
+  
+
+//   const port = process.env.PORT || 3000
+//   app.listen(port, () => console.log(`listening on port ${port}`))
+
+
+
+
+// رویکرد رفرنس
+// ابتدا یک فایل ایجاد میکنیم حالا با هر اسمی مثلا
+// relation.js
+// بعد داخلش کد های زیر را مینویسیم 
+// ابتدا میخواهیم به مونگوز متصل شیم که از کد زیر استفاده میکنیم
 const mongoose = require('mongoose')
-const express = require('express')
-const {Router} = require('express')
-const User = require('./models/user')
+mongoose.connect('mongodb://localhost:27017/relation')
+.then(()=>console.log("connected to mongodb"))
+.catch(()=>console.log("could not connect"))
+// با استفاده از کد های بالا به مونگو دیبی متصل شدیم
 
-const app = express()
-const userRouter = Router()
+// حالا با استفاده از کد های زیر یک کالکشن بوک و یک کالکشن یوز درست میکنیم به صورت زیر 
+const Book = mongoose.model("Book",new mongoose.Schema({
+  title:String,
+  pages:Number
+}))
 
-app.use(express.json())
+const User = mongoose.model("User",new mongoose.Schema({
+  first_name: String,
+  last_name: String,
+  Book:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"Book"
+  }
+}))
 
-app.use('/api/users',userRouter)
-mongoose
-  .connect("mongodb://localhost:27017/helloexpress")
-  .then(() => console.log('connected to mongodb'))
-  .catch(err => console.log('could not connect to mongodb',err))
-
-
-  userRouter.get('/', async (req, res) => {
-    const users = await User.find()
-    res.send(users)
+// مرحله بعد ساخت فانگشن برای ایجاد کاربر
+async function createUser(first_name , last_name , Book_id){
+  const user = new User ({
+    first_name ,
+    last_name ,
+    Book : Book_id
   })
-  
-  userRouter.post('/', async (req, res) => {
-    const newUser = new User(req.body)
-    await newUser.save()
-    res.send(newUser)
+  const result = await user.save()
+  console.log(result)
+}
+
+// حالا یک فانگشن برای ایجاده بوک
+async function createBook(title , pages){
+  const book = new Book({
+    title , 
+    pages
   })
+  const result = await book.save()
+  console.log(result)
   
-  app.use('/api/users', userRouter)
-  
+}
 
-  const port = process.env.PORT || 3000
-  app.listen(port, () => console.log(`listening on port ${port}`))
+// و حالا یک فانگشن برای دریافت کاربر ها ایجاد میکنیم
+async function getUsers(title,pages){
+  const users = await User.find()
+  console.log(users)
+}
 
+createBook('node.js programming',100)
+// این کد در پوشه 
+// relation
+// هم قرار دارد
+// و یک سری توضیحات اضافه تر هم وجود دارد
