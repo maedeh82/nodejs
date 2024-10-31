@@ -1296,57 +1296,149 @@
 // relation.js
 // بعد داخلش کد های زیر را مینویسیم 
 // ابتدا میخواهیم به مونگوز متصل شیم که از کد زیر استفاده میکنیم
+// const mongoose = require('mongoose')
+// mongoose.connect('mongodb://localhost:27017/relation')
+// .then(()=>console.log("connected to mongodb"))
+// .catch(()=>console.log("could not connect"))
+// // با استفاده از کد های بالا به مونگو دیبی متصل شدیم
+
+// // حالا با استفاده از کد های زیر یک کالکشن بوک و یک کالکشن یوز درست میکنیم به صورت زیر 
+// const Book = mongoose.model("Book",new mongoose.Schema({
+//   title:String,
+//   pages:Number
+// }))
+
+// const User = mongoose.model("User",new mongoose.Schema({
+//   first_name: String,
+//   last_name: String,
+//   Book:{
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref:"Book"
+//   }
+// }))
+
+// // مرحله بعد ساخت فانگشن برای ایجاد کاربر
+// async function createUser(first_name , last_name , Book_id){
+//   const user = new User ({
+//     first_name ,
+//     last_name ,
+//     Book : Book_id
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
+
+// // حالا یک فانگشن برای ایجاده بوک
+// async function createBook(title , pages){
+//   const book = new Book({
+//     title , 
+//     pages
+//   })
+//   const result = await book.save()
+//   console.log(result)
+  
+// }
+
+// // و حالا یک فانگشن برای دریافت کاربر ها ایجاد میکنیم
+// async function getUsers(title,pages){
+//   const users = await User.find()
+//   console.log(users)
+// }
+
+// createBook('node.js programming',100)
+// // این کد در پوشه 
+// // relation
+// // هم قرار دارد
+// // و یک سری توضیحات اضافه تر هم وجود دارد
+
+
+
+// رویکرد دوم یعنی رویکرد جاسازی
+// این کد ها هم باید داخل فایل ریلیشن باشه تا در مونگو دیبی اجرا بشه این ها هم میزارم داخل همون فایل 
+// خواستی تست کنی برو از اونجا تست کن
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/relation')
 .then(()=>console.log("connected to mongodb"))
 .catch(()=>console.log("could not connect"))
-// با استفاده از کد های بالا به مونگو دیبی متصل شدیم
 
-// حالا با استفاده از کد های زیر یک کالکشن بوک و یک کالکشن یوز درست میکنیم به صورت زیر 
-const Book = mongoose.model("Book",new mongoose.Schema({
-  title:String,
-  pages:Number
-}))
+const bookSchema = new mongoose.Schema({
+  title: String ,
+  pages : Number
+})
+const Book = mongoose.model("Book", bookSchema)
 
 const User = mongoose.model("User",new mongoose.Schema({
   first_name: String,
   last_name: String,
-  Book:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref:"Book"
-  }
+  // برای اینکه تبدیل به ارایه کنیم و چند تا کتاب داشته باشیم کافیه بوک اسکیمای ریر را داخل []بگذاریم
+  book : bookSchema
 }))
-
-// مرحله بعد ساخت فانگشن برای ایجاد کاربر
-async function createUser(first_name , last_name , Book_id){
+// برای چند کتاب داستن بوک زیر را هم اخرش را یک اس اضاقه کن
+async function createUser(first_name , last_name , book){
   const user = new User ({
     first_name ,
     last_name ,
-    Book : Book_id
+    // و برای چند تا کتاب داشته علاوه بر کار بالا باید بوک پایین را در سمت راست قرار داره رو به 
+    // books
+    // تغییر دهیم
+    book : book
   })
   const result = await user.save()
   console.log(result)
 }
 
-// حالا یک فانگشن برای ایجاده بوک
-async function createBook(title , pages){
-  const book = new Book({
-    title , 
-    pages
-  })
-  const result = await book.save()
-  console.log(result)
-  
-}
 
-// و حالا یک فانگشن برای دریافت کاربر ها ایجاد میکنیم
+
 async function getUsers(title,pages){
   const users = await User.find()
   console.log(users)
 }
+// اگر بخواهیم کتابمون رو اپدیت کنیم از کد های زیر استفاده میکنیم
+// الان مثلا میخوایم تایتلش رو تغییر بدیم 
+async function updateUser(id){
+  const user = await User.findById(id)
+  user.book.title = 'react programming',
+  await user.save()
+}
+// برای اینکه چیزی که اپدیت کردیم را فراخونی کنیم از کد زیر استفاده میکنیم 
+updateUser('67235912fad0865afc71a3b5')
 
-createBook('node.js programming',100)
-// این کد در پوشه 
-// relation
-// هم قرار دارد
-// و یک سری توضیحات اضافه تر هم وجود دارد
+
+// createUser('maedeh' , 'khan' , new Book({title:'nodejs progamming' , pages:100}))
+
+// برای اینکه به جای یدونه کتاب چند تا کتاب تولید کنیم یا ارایه ای از کتاب هارو داشته باشیم
+// تغییرات را بالا بین کد های نوشتم برو بگرد پیدا کن و تغییر اخر هم که برای فراخونی کردن است در زیر
+// createUser('maedeh' , 'khan' ,[
+//   new Book ({title:'nodejs progamming', pages:100},
+//   new Book ({title:'react progamming', pages:150},
+//   new Book ({title:'mongodb tutorial', pages:200}
+
+//   )))
+// ] )
+ 
+
+// و حالا یک فانگشن باید اضافه کنیم که بتونیم به کتاب های یک یوزر کتاب اضافه کنیم 
+// این کد در بین همون فانگشن هایی ک ایجاد کردیم میتونیم باشه اگ جاش و میخواستی ببینی در فایل ریلیشن 
+// هست کدشو زیر مینویسم بعد تو اون فایل برو دنبالش بگرد
+// async function addBook(userId , book){
+//   const user = await User.findById(userId)
+//   user.books.push(book)
+//   await user.save()
+// }
+  // و برای فراخانی از کد زیر استفاده میکنیم 
+  // ورودی اول ایدی یوزرو میدیم بهش ورودی دوم یه کتاب جدید اضافه میکنم 
+// addBook('67236570afcd74d90cb5af46', new Book({title:'js tutorial', pages:300}))
+
+
+// حالا یک فانگشن اضافه میکنیم برای اینکه یک کتاب را پاک کنیم 
+// جای فانگشن هم بین فانگشن های دیگر میگذاریم 
+async function removeBook(userId , bookId){
+  const user = await User.findById(userId)
+  const book = user.books.id(bookId)
+  book.remove()
+  await user.save()
+}
+// و برای صدا زدن فانگشن بالا کد زیر را مینویسیم 
+// دوتا ورودی دریافت میکنه اولی ایدی کاربر و دومی ایدی اون کتابی که میخوایم حذف بشه
+removeBook('67236570afcd74d90cb5af46' , '672369b563e44c797063c4bb')
+// برای تست کد های بالا در فایل ریلیشن باید تست بشه 
