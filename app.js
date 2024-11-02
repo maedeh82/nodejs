@@ -1356,52 +1356,52 @@
 // رویکرد دوم یعنی رویکرد جاسازی
 // این کد ها هم باید داخل فایل ریلیشن باشه تا در مونگو دیبی اجرا بشه این ها هم میزارم داخل همون فایل 
 // خواستی تست کنی برو از اونجا تست کن
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/relation')
-.then(()=>console.log("connected to mongodb"))
-.catch(()=>console.log("could not connect"))
+// const mongoose = require('mongoose')
+// mongoose.connect('mongodb://localhost:27017/relation')
+// .then(()=>console.log("connected to mongodb"))
+// .catch(()=>console.log("could not connect"))
 
-const bookSchema = new mongoose.Schema({
-  title: String ,
-  pages : Number
-})
-const Book = mongoose.model("Book", bookSchema)
+// const bookSchema = new mongoose.Schema({
+//   title: String ,
+//   pages : Number
+// })
+// const Book = mongoose.model("Book", bookSchema)
 
-const User = mongoose.model("User",new mongoose.Schema({
-  first_name: String,
-  last_name: String,
-  // برای اینکه تبدیل به ارایه کنیم و چند تا کتاب داشته باشیم کافیه بوک اسکیمای ریر را داخل []بگذاریم
-  book : bookSchema
-}))
-// برای چند کتاب داستن بوک زیر را هم اخرش را یک اس اضاقه کن
-async function createUser(first_name , last_name , book){
-  const user = new User ({
-    first_name ,
-    last_name ,
-    // و برای چند تا کتاب داشته علاوه بر کار بالا باید بوک پایین را در سمت راست قرار داره رو به 
-    // books
-    // تغییر دهیم
-    book : book
-  })
-  const result = await user.save()
-  console.log(result)
-}
+// const User = mongoose.model("User",new mongoose.Schema({
+//   first_name: String,
+//   last_name: String,
+//   // برای اینکه تبدیل به ارایه کنیم و چند تا کتاب داشته باشیم کافیه بوک اسکیمای ریر را داخل []بگذاریم
+//   book : bookSchema
+// }))
+// // برای چند کتاب داستن بوک زیر را هم اخرش را یک اس اضاقه کن
+// async function createUser(first_name , last_name , book){
+//   const user = new User ({
+//     first_name ,
+//     last_name ,
+//     // و برای چند تا کتاب داشته علاوه بر کار بالا باید بوک پایین را در سمت راست قرار داره رو به 
+//     // books
+//     // تغییر دهیم
+//     book : book
+//   })
+//   const result = await user.save()
+//   console.log(result)
+// }
 
 
 
-async function getUsers(title,pages){
-  const users = await User.find()
-  console.log(users)
-}
+// async function getUsers(title,pages){
+//   const users = await User.find()
+//   console.log(users)
+// }
 // اگر بخواهیم کتابمون رو اپدیت کنیم از کد های زیر استفاده میکنیم
 // الان مثلا میخوایم تایتلش رو تغییر بدیم 
-async function updateUser(id){
-  const user = await User.findById(id)
-  user.book.title = 'react programming',
-  await user.save()
-}
+// async function updateUser(id){
+//   const user = await User.findById(id)
+//   user.book.title = 'react programming',
+//   await user.save()
+// }
 // برای اینکه چیزی که اپدیت کردیم را فراخونی کنیم از کد زیر استفاده میکنیم 
-updateUser('67235912fad0865afc71a3b5')
+// updateUser('67235912fad0865afc71a3b5')
 
 
 // createUser('maedeh' , 'khan' , new Book({title:'nodejs progamming' , pages:100}))
@@ -1432,13 +1432,30 @@ updateUser('67235912fad0865afc71a3b5')
 
 // حالا یک فانگشن اضافه میکنیم برای اینکه یک کتاب را پاک کنیم 
 // جای فانگشن هم بین فانگشن های دیگر میگذاریم 
-async function removeBook(userId , bookId){
-  const user = await User.findById(userId)
-  const book = user.books.id(bookId)
-  book.remove()
-  await user.save()
-}
+// async function removeBook(userId , bookId){
+//   const user = await User.findById(userId)
+//   const book = user.books.id(bookId)
+//   book.remove()
+//   await user.save()
+// }
 // و برای صدا زدن فانگشن بالا کد زیر را مینویسیم 
 // دوتا ورودی دریافت میکنه اولی ایدی کاربر و دومی ایدی اون کتابی که میخوایم حذف بشه
-removeBook('67236570afcd74d90cb5af46' , '672369b563e44c797063c4bb')
+// removeBook('67236570afcd74d90cb5af46' , '672369b563e44c797063c4bb')
 // برای تست کد های بالا در فایل ریلیشن باید تست بشه 
+
+
+
+
+// اعتبار سنجی ابجکت ایدی
+// برای اینکه بفهمیم ایدی که فرستاده شده درسته یا نه توی درخواست گت شرط زیر را قرار میدهیم
+// ruter.get("/:id" , async (req,res)=>{
+//   if (!mongoose.types.objectId.isValid(req.params.id)) {
+//     return res.status(400).send('invalid id')
+//   }
+// })
+// این روش برای اینه که یک ارور مناسب برگردونه
+
+
+
+// ساختار جدید بخش اول
+// که قراره پروژه بزنیم
